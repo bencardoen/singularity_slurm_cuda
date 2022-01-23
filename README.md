@@ -83,3 +83,9 @@ Now <somedir> will appear inside the container as <mountpoint>.
 [Singularity documentation](https://sylabs.io/docs)
 
 [Sylabs cloud builder](https://cloud.sylabs.io/library)
+
+### But I want PyTorch
+```
+singularity pull image.sif docker://nvcr.io/nvidia/pytorch:21.12-py3
+```
+More tags at [NVidia NVCR][https://catalog.ngc.nvidia.com/containers]
