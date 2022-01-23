@@ -2,6 +2,13 @@
 
 ## Required
 - HPC cluster account
+  - You know your account/group info
+  - You've configured ssh key access
+- Basic Linux CLI interaction
+
+You do not need Singularity on your own machine, though for more advanced use cases you probably will want to.
+
+If you do not have Linux to work with Singularity on your home machine, try a VM using VirtualBox or similar software, or WSL2.
 
 ## Walkthrough
 ### Login to the cluster
@@ -19,7 +26,14 @@ export SINGULARITY_TMPDIR="$SLURM_TMPDIR/singularity/tmp"
 export SINGULARITY_CACHEDIR="$SLURM_TMPDIR/singularity/cache"
 cd $SINGULARITY_TMPDIR
 singularity pull tensorflow-19.11-tf1-py3.sif docker://nvcr.io/nvidia/tensorflow:19.11-tf1-py3
-cp tensorflow-19.11-tf1-py3.sif $HOME/scratch
+```
+The pull image can take ~20 mins or depending on network, disk, ... .
+
+### Store the image where compute nodes can access it
+```
+cp tensorflow-19.11-tf1-py3.sif /scratch/$USER
+# or
+cp tensorflow-19.11-tf1-py3.sif /project/$USER
 ```
 
 ### Get an interactive node
@@ -35,7 +49,7 @@ mkdir -p $SLURM_TMPDIR/singularity/{cache,tmp}
 export SINGULARITY_TMPDIR="$SLURM_TMPDIR/singularity/tmp"
 export SINGULARITY_CACHEDIR="$SLURM_TMPDIR/singularity/cache"
 cd $SINGULARITY_TMPDIR
-cp tensorflow-19.11-tf1-py3.sif .
+cp /scratch/$USER/tensorflow-19.11-tf1-py3.sif .  # Change if needed
 singularity shell --nv tensorflow-19.11-tf1-py3.sif
 ```
 Now you can execute code inside the container

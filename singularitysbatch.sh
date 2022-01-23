@@ -47,7 +47,8 @@ echo "Copying Singularity image"
 cp $IMAGE_LOCATION $SLURM_TMPDIR
 
 echo "Running image"
-singularity exec --nv $SLURM_TMPDIR/image.sif yourcode
+srun singularity exec --nv $SLURM_TMPDIR/image.sif python -c 'import tensorflow as tf; assert(tf.test.is_gpu_available())'
+## Note that if this fails, the job fails, so it's a sanity check that everything works as is
 
 NOW=$(date +"%m_%d_%Y_HH%I_%M")
 
