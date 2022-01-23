@@ -44,6 +44,7 @@ Singularity> python
 >>> import tensorflow as tf
 >>> tf.test.is_gpu_available()
 ```
+This should print a lot of info on CUDA version, GPU type etc, and evaluate to True.
 
 ## SBATCH mode
 Check singularitysbatch.sh as an example. Make sure you modify the account, email, and image location entries.
@@ -54,8 +55,17 @@ sbatch singularitysbatch.sh
 ### Notes
 #### Own images
 - Creating your own images requires singularity, or you can build on Sylabs.io's cloud builder.
+-
 #### Accessing data
 ```
 singularity shell --nv -B <somedir>:<mountpoint> tensorflow-19.11-tf1-py3.sif
 ```
 Now <somedir> will appear inside the container as <mountpoint>.
+
+
+## Extra resources
+[Compute Canada Wiki on Singularity](https://docs.computecanada.ca/wiki/Singularity)
+
+[Singularity documentation](https://sylabs.io/docs)
+
+[Sylabs cloud builder](https://cloud.sylabs.io/library)
