@@ -19,15 +19,24 @@ ssh you@cluster.country
 We'll use a tensorflow image from NVidia.
 We'll assume for now there's a temporary directory on a fast local disk at $SLURM_TMPDIR. This may not be the case, so please adjust to your setting.
 If you don't set these variables, singularity will write to $HOME, which you never want.
+
+**Do NOT copy paste if $SLURM_TMPDIR is not set**. On Cedar, first get an interactive node.
+
 ```bash
 module load singularity
-mkdir -p $SLURM_TMPDIR/singularity/{cache,tmp}
-export SINGULARITY_TMPDIR="$SLURM_TMPDIR/singularity/tmp"
-export SINGULARITY_CACHEDIR="$SLURM_TMPDIR/singularity/cache"
+export $STMP=$SLURM_TMPDIR
+# or if not in interactive node
+# export $STMP=/scratch/$USER
+mkdir -p $STMP/singularity/{cache,tmp}
+export SINGULARITY_TMPDIR="STMP/singularity/tmp"
+export SINGULARITY_CACHEDIR="$STMP/singularity/cache"
 cd $SINGULARITY_TMPDIR
 singularity pull tensorflow-19.11-tf1-py3.sif docker://nvcr.io/nvidia/tensorflow:19.11-tf1-py3
 ```
 The pull image can take ~20 mins or depending on network, disk, ... .
+
+#### Pull is too slow ...
+In that case, run the pull command locally, and copy the resulting image to the cluster.
 
 ### Store the image where compute nodes can access it
 ```
@@ -42,14 +51,19 @@ salloc --time=3:0:0 --ntasks=1 --cpus-per-task=4 --mem-per-cpu=4G --account=<YOU
 ```
 After getting the node
 ```bash
+## Make sure environment is clean
 module purge
+
 module load singularity
 module load cuda
+
 mkdir -p $SLURM_TMPDIR/singularity/{cache,tmp}
 export SINGULARITY_TMPDIR="$SLURM_TMPDIR/singularity/tmp"
 export SINGULARITY_CACHEDIR="$SLURM_TMPDIR/singularity/cache"
 cd $SINGULARITY_TMPDIR
+
 cp /scratch/$USER/tensorflow-19.11-tf1-py3.sif .  # Change if needed
+
 singularity shell --nv tensorflow-19.11-tf1-py3.sif
 ```
 Now you can execute code inside the container
