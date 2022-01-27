@@ -1,6 +1,6 @@
 # A quick example on how to get up and running with singularity on a cluster with CUDA
 
-** Note: if you copy paste these examples, at a minimum verify you know what they do. These are listed only as examples, without any warranty, you should know if and how they apply to your use case and cluster **
+**Note: if you copy paste these examples, at a minimum verify you know what they do. These are listed only as examples, without any warranty, you should know if and how they apply to your use case and cluster**
 
 ## Required
 - HPC cluster account
@@ -47,7 +47,7 @@ cp tensorflow-19.11-tf1-py3.sif /scratch/$USER
 # or
 cp tensorflow-19.11-tf1-py3.sif /project/$USER
 ```
-** Filesystems on clusters specialize usually for 2 orthogonal use cases: fast and temporary, slow and permanent. Your cluster documentation will tell you which is which. **
+**Filesystems on clusters specialize usually for 2 orthogonal use cases: fast and temporary, slow and permanent. Your cluster documentation will tell you which is which.**
 
 ### Get an interactive node
 ```bash
