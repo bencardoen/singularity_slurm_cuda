@@ -85,9 +85,32 @@ sbatch singularitysbatch.sh
 ```
 
 ### Notes
-#### Own images
-- Creating your own images requires singularity, or you can build on Sylabs.io's cloud builder.
--
+#### Creating your own images
+You can create your own images in 2 x 2 ways:
+- local vs remote
+- definition file or stateful
+##### Local v remote
+For most non-trivial images you will need sudo rights on the machine where you build singularity.
+If you do not have that on your current machine, fear not, you have these options:
+
+- Sylabs.io [Remote Builder](https://cloud.sylabs.io/builder)
+- [Azure](https://azure.microsoft.com/en-us/free/students/)
+- [AWS](https://aws.amazon.com/education/awseducate/)
+- Run a VM in [Virtualbox](https://www.virtualbox.org/)
+- On windows, use WSL2, VM, ...
+- Integrate with a pipeline using automated testing e.g [CircleCI](https://circleci.com/)
+
+When in doubt, go with the first option, all you need is your definition file, the builder will even do syntax checking, that won't be the case if you build yourself.
+
+Building an image shouldn't take longer than ~ 30 minutes, well within the free tier of cloud providers.
+
+#### Definition v stateful
+A definition file a pristine recipe that is interpretable, someone who wants to know what the image contains or how it is built only needs to read that file.
+Sometimes you may need to 'edit' the image, that is, you convert the image to writable folders, open a shell, modify, and rebuild. 
+In 99.99% of all cases, however, a definition file is the way to go. 
+Editing an image is an option if you want to figure out how to improve it in a way that isn't working by definition file, iow you figure out interactively what commands are needed, then rebuild the image. If it works, then add your commands to the definition file.
+The Singularity docs detail precisely how to achieve either case.
+
 #### Accessing data
 ```
 singularity shell --nv -B <somedir>:<mountpoint> tensorflow-19.11-tf1-py3.sif
