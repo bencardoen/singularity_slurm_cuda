@@ -22,17 +22,19 @@ We'll use a tensorflow image from NVidia.
 We'll assume for now there's a temporary directory on a fast local disk at $SLURM_TMPDIR. This may not be the case, so please adjust to your setting.
 If you don't set these variables, singularity will write to $HOME, which you never want.
 
-**Do NOT copy paste if $SLURM_TMPDIR is not set**. On Cedar, first get an interactive node.
-
 ```bash
 module load singularity
-export STMP=$SLURM_TMPDIR
-# or if not in interactive node
-# export $TMP=/scratch/$USER
+if [[ "$SLURM_TMPDIR" ]]; then export STMP=$SLURM_TMPDIR; else export STMP="/scratch/$USER"; fi
+```
+This ensures that, if you're in a compute node, you use its fast storage, if not, use scratch space.
+```bash
 mkdir -p $STMP/singularity/{cache,tmp}
 export SINGULARITY_TMPDIR="$STMP/singularity/tmp"
 export SINGULARITY_CACHEDIR="$STMP/singularity/cache"
 cd $SINGULARITY_TMPDIR
+```
+Now pull (~ download) the image. This is a docker image, so Singularity will convert it on the fly.
+```bash
 singularity pull tensorflow-19.11-tf1-py3.sif docker://nvcr.io/nvidia/tensorflow:19.11-tf1-py3
 ```
 The pull image can take ~20 mins or depending on network, disk, ... .
@@ -61,9 +63,10 @@ module purge
 module load singularity
 module load cuda
 
-mkdir -p $SLURM_TMPDIR/singularity/{cache,tmp}
-export SINGULARITY_TMPDIR="$SLURM_TMPDIR/singularity/tmp"
-export SINGULARITY_CACHEDIR="$SLURM_TMPDIR/singularity/cache"
+if [[ "$SLURM_TMPDIR" ]]; then export STMP=$SLURM_TMPDIR; else export STMP="/scratch/$USER"; fi
+mkdir -p $STMP/singularity/{cache,tmp}
+export SINGULARITY_TMPDIR="$STMP/singularity/tmp"
+export SINGULARITY_CACHEDIR="$STMP/singularity/cache"
 cd $SINGULARITY_TMPDIR
 
 cp /scratch/$USER/tensorflow-19.11-tf1-py3.sif .  # Change if needed
