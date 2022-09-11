@@ -26,9 +26,9 @@ If you don't set these variables, singularity will write to $HOME, which you nev
 
 ```bash
 module load singularity
-export $STMP=$SLURM_TMPDIR
+export STMP=$SLURM_TMPDIR
 # or if not in interactive node
-# export $STMP=/scratch/$USER
+# export $TMP=/scratch/$USER
 mkdir -p $STMP/singularity/{cache,tmp}
 export SINGULARITY_TMPDIR="STMP/singularity/tmp"
 export SINGULARITY_CACHEDIR="$STMP/singularity/cache"
