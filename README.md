@@ -30,7 +30,7 @@ export STMP=$SLURM_TMPDIR
 # or if not in interactive node
 # export $TMP=/scratch/$USER
 mkdir -p $STMP/singularity/{cache,tmp}
-export SINGULARITY_TMPDIR="STMP/singularity/tmp"
+export SINGULARITY_TMPDIR="$STMP/singularity/tmp"
 export SINGULARITY_CACHEDIR="$STMP/singularity/cache"
 cd $SINGULARITY_TMPDIR
 singularity pull tensorflow-19.11-tf1-py3.sif docker://nvcr.io/nvidia/tensorflow:19.11-tf1-py3
