@@ -2,6 +2,8 @@
 
 **Note: if you copy paste these examples, at a minimum verify you know what they do. These are listed only as examples, without any warranty, you should know if and how they apply to your use case and cluster**
 
+See [slides.md](slides.md) for a slidedeck, and [pdf](bencardoen_20220913.pdf) version made with HackMD/Reveal.js
+
 ## Required
 - HPC cluster account
   - You know your account/group info
