@@ -116,6 +116,27 @@ In 99.99% of all cases, however, a definition file is the way to go.
 Editing an image is an option if you want to figure out how to improve it in a way that isn't working by definition file, iow you figure out interactively what commands are needed, then rebuild the image. If it works, then add your commands to the definition file.
 The Singularity docs detail precisely how to achieve either case.
 
+### Recipe
+Create this file, e.g. `recipe.def`
+```toml
+Bootstrap: docker
+From: nvcr.io/nvidia/pytorch:21.12-py3
+
+%post
+    echo "Hi"
+    # Add post install instructions you need to customize
+
+%labels
+    Version v0.0.1
+
+%help
+    This is a demo container used to illustrate a def file.
+```
+build it
+```bash
+singularity build myimage.sif recipe.def
+```
+
 #### Accessing data
 ```
 singularity shell --nv -B <somedir>:<mountpoint> tensorflow-19.11-tf1-py3.sif
